@@ -3,7 +3,7 @@
     <div class="buttons">
       <button class="say-hi-button" @click="swap">SAY HI!</button>
     </div>
-  <a-scene embedded arjs>
+  <a-scene embedded arjs >
     <a-marker  preset="hiro">
       <a-entity id="mclaren" position="0 0 0" :scale="model.mclaren.scale" :gltf-model="model.mclaren.url">
       </a-entity>
@@ -13,6 +13,7 @@
       <a-entity  id="dinosaur" position="0 0 0" :scale="model.dinosaur.scale"
         :gltf-model="model.dinosaur.url">
       </a-entity>
+      <a-box color="red" position="0 2 -5" rotation="0 45 45" scale="2 2 2"></a-box>
     </a-marker>
 
     <a-entity camera></a-entity>
@@ -21,8 +22,19 @@
 </template>
 
 <script>
+import GameScene from './js/GameScene'
+import Player from './js/Player'
+
 export default {
   name: "App",
+  mounted() {
+    console.log("mounted")
+  // //initialised the gameScene with Players
+  var game = new GameScene(this.player.billy, this.player.jason)
+  game.start()
+
+  //Start to decide 
+  },
   data() {
     return {
       model: {
@@ -36,6 +48,10 @@ export default {
           position: "0 0 0",
           scale: "0.05 0.05 0.05"
         }
+      },
+      player: {
+        billy: new Player("billy"),
+        jason: new Player("jason")
       }
     };
   },
@@ -47,6 +63,7 @@ export default {
     }
   }
 };
+
 </script>
 
   <style>
