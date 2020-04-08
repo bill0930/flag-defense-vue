@@ -1,41 +1,66 @@
 <template>
   <span id="app">
-    <div class="buttons">
-      <button class="say-hi-button" @click="swap">SAY HI!</button>
+    <div class="topInfobar bg-danger"> 
+        <div class="topElement text-warning">  <h5> Opponent: {{player.opponent.name}} </h5></div>
+        <div class="topElement text-warning">  <h5> numFlag <b-badge variant="light">{{player.opponent.numFlag}}</b-badge></h5></div>
+        <div class="topElement text-warning">  <h5>numCannon<b-badge variant="light">{{player.opponent.numCannon}}</b-badge></h5></div>
+        <div class="topElement text-warning">  <h5>numWall<b-badge variant="light">{{player.opponent.numWall}}</b-badge></h5></div>
+     
     </div>
-  <a-scene embedded arjs >
-    <a-marker  preset="hiro">
-      <a-entity id="mclaren" position="0 0 0" :scale="model.mclaren.scale" :gltf-model="model.mclaren.url">
-      </a-entity>
-    </a-marker>
+    <div class="PRSBar bg-primary">
+      <div class="buttons">
+        <b-button variant="success" class="PRSbutton">Paper</b-button>
+        <b-button variant="success" class="PRSbutton">Scissors</b-button>
+        <b-button variant="success" class="PRSbutton">Rock</b-button>
+      </div>
+    </div>
+    <div class="bottomInfobar bg-secondary">
+         <div class="topElement text-warning">  <h5> name: {{player.mainplayer.name}}></h5></div>
+        <div class="bottomElement text-warning">  <h5> numFlag <b-badge variant="light">{{player.mainplayer.numFlag}}</b-badge></h5></div>
+        <div class="bottomElement text-warning">  <h5>numCannon<b-badge variant="light">{{player.mainplayer.numCannon}}</b-badge></h5></div>
+        <div class="bottomElement text-warning">  <h5>numWall<b-badge variant="light">{{player.mainplayer.numWall}}</b-badge></h5></div>
 
-    <a-marker preset="kanji">
-      <a-entity  id="dinosaur" position="0 0 0" :scale="model.dinosaur.scale"
-        :gltf-model="model.dinosaur.url">
-      </a-entity>
-      <a-box color="red" position="0 2 -5" rotation="0 45 45" scale="2 2 2"></a-box>
-    </a-marker>
+    </div>
 
-    <a-entity camera></a-entity>
-  </a-scene>
+    <a-scene embedded arjs>
+      <a-marker preset="hiro">
+        <a-entity
+          id="mclaren"
+          position="0 0 0"
+          :scale="model.mclaren.scale"
+          :gltf-model="model.mclaren.url"
+        ></a-entity>
+      </a-marker>
+
+      <a-marker preset="kanji">
+        <a-entity
+          id="dinosaur"
+          position="0 0 0"
+          :scale="model.dinosaur.scale"
+          :gltf-model="model.dinosaur.url"
+        ></a-entity>
+        <a-box color="red" position="0 2 -5" rotation="0 45 45" scale="2 2 2"></a-box>
+      </a-marker>
+
+      <a-entity camera></a-entity>
+    </a-scene>
   </span>
 </template>
 
 <script>
-import GameScene from './js/GameScene'
-import Player from './js/Player'
+import GameScene from "./js/GameScene";
+import Player from "./js/Player";
 
-export default {  
+export default {
   name: "App",
-  components: {
-  },
+  components: {},
   mounted() {
-    console.log("mounted")
-  // //initialised the gameScene with Players
-  var game = new GameScene(this.player.billy, this.player.jason)
-  game.start()
+    console.log("mounted");
+    // //initialised the gameScene with Players
+    var game = new GameScene(this.player.billy, this.player.opponent);
+    game.start();
 
-  //Start to decide 
+    //Start to decide
   },
   data() {
     return {
@@ -46,30 +71,73 @@ export default {
           scale: "0.005 0.005 0.005"
         },
         dinosaur: {
-          url: "https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf",
+          url:
+            "https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf",
           position: "0 0 0",
           scale: "0.05 0.05 0.05"
         }
       },
       player: {
-        billy: new Player("billy"),
-        jason: new Player("jason")
-      }
+        mainplayer: new Player("billy"),
+        opponent: new Player("opponent")
+      },
     };
   },
   methods: {
     swap() {
-    var temp = this.model.mclaren 
-    this.model.mclaren = this.model.dinosaur 
-    this.model.dinosaur = temp
+      var temp = this.model.mclaren;
+      this.model.mclaren = this.model.dinosaur;
+      this.model.dinosaur = temp;
     }
   }
 };
-
 </script>
 
   <style>
-.buttons {
+.topInfobar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3em;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  z-index: 10;
+  
+}
+
+.topInfobar .topElement{
+  padding: 0.5em;
+  margin: 1em;
+  border: 2px;
+  width: 7em;
+  justify-content: center;
+  text-align: center;
+}
+
+.bottomInfobar {
+  position: absolute;
+  bottom: 5em;
+  left: 0;
+  width: 100%;
+  height: 3em;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 10;
+}
+
+.bottomInfobar .bottomElement{
+  padding: 0.5em;
+  margin: 1em;
+  border: 2px;
+  width: 7em;
+  justify-content: center;
+  text-align: center;
+}
+
+.PRSBar {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -81,13 +149,15 @@ export default {
   z-index: 10;
 }
 
-.say-hi-button {
+.PRSBar .PRSbutton {
   padding: 0.25em;
+  margin: 1em;
   border-radius: 4px;
   border: none;
   background: white;
   color: black;
-  width: 4em;
+  width: 5em;
   height: 2em;
+  /* z-index; */
 }
 </style>

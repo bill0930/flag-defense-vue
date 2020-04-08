@@ -18,6 +18,6 @@ module.exports = {
       watchContentBase: true
   //devServer.hot option must be disabled or devServer.watchContentBase option must be enabled in order for liveReload to take effect
       // https: true,
-    },
+    }
 
 }
