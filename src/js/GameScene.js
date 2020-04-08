@@ -1,5 +1,5 @@
 
-const GameState = Object.freeze({"ENTERED":1, "STARTED":2, "RUNNING":3})
+const GameState = Object.freeze({"ENTERED":1, "RPS_STATE":2, "END_STATE":3})
 
 class GameScene {
     
@@ -11,6 +11,7 @@ class GameScene {
         this.player2 = player2;
       }
      start(){
+       this.state = GameState.RPS_STATE
 
      }
     // init(){

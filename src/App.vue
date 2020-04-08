@@ -25,8 +25,10 @@
 import GameScene from './js/GameScene'
 import Player from './js/Player'
 
-export default {
+export default {  
   name: "App",
+  components: {
+  },
   mounted() {
     console.log("mounted")
   // //initialised the gameScene with Players
