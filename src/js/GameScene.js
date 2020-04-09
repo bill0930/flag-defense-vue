@@ -1,43 +1,17 @@
-
 const GameState = Object.freeze({"ENTERED":1, "RPS_STATE":2, "END_STATE":3})
 
 class GameScene {
     
-    constructor(player1, player2){
+    constructor(){
         this.state = GameState.ENTERED
         this.gameWinner = null;
         this.gameLoser = null;
-        this.player1 = player1;
-        this.player2 = player2;
+
       }
      start(){
        this.state = GameState.RPS_STATE
 
      }
-    // init(){
-    //   while(true){
-    //     switch (this.state) {
-    //       case GameState.STARTED:
-            
-    //         break;
-    //       case GameState.RUNNING:
-    //         // 
-    //         break;
-        
-    //       default:
-    //         break;
-    //     }
-    //   }
-     
-      //default numFlag both are = 3
-    //   while(this.gameWinner == null && this.gameLoser == null){  
-    //     this.playRockPaperScissors() // change the player1 && player2 status
-    //     this.player1.status == "win"? this.makeDecision(this.player1, this.player2) 
-    //                                 : this.makeDecision(this.player2, this.player1)
-                                    
-    //  }
-    
-
     update(){
       
     }
@@ -45,12 +19,47 @@ class GameScene {
       window.alert("the winner is "+ this.gameWinner.name, "this.loser is "+ this.gameLoser.name)
     }
 
-    playRockPaperScissors(){
-      this.player1.RPSChoice = "paper"
-      this.player2.RPSChoice = "rock"
-      this.player1.status = "win"
-      this.player2.status = "lose"
+    playRockPaperScissors(player, opponent, choice){
+      // RockPaperScissors
+
+      const randomRPSChoice = ['rock', 'paper', 'scissors']
+      player.RPSChoice = choice
+      opponent.RPSChoice =  randomRPSChoice[Math.floor(Math.random()* randomRPSChoice.length)];
+
+      const result = this.checkWinLose(player.RPSChoice, opponent.RPSChoice)
+      return result
     }
+
+    checkWinLose(chocie_a, chocie_b){
+      if (chocie_a == chocie_b) {
+        return 'tie'
+      }
+      else if (chocie_a == 'paper'){
+        if(chocie_b == 'rock') {
+          return 'a_win'
+        }
+        if (chocie_b == 'scissors'){
+          return 'b_win'
+        }
+      }
+      else if (chocie_a == 'rock'){
+        if(chocie_b == 'scissors') {
+          return 'a_win'
+        }
+        if (chocie_b == 'paper'){
+          return 'b_win'
+        }
+      }
+      else if (chocie_a == 'scissors'){
+        if(chocie_b == 'paper') {
+          return 'a_win'
+        }
+        if (chocie_b == 'rock'){
+          return 'b_win'
+        }
+      }
+    }
+
 
     makeDecision(winner, loser){ //Pass Player time
       // winner do thing

@@ -2,23 +2,23 @@
   <span id="app">
     <div class="topInfobar bg-danger"> 
         <div class="topElement text-warning">  <h5> Opponent: {{player.opponent.name}} </h5></div>
-        <div class="topElement text-warning">  <h5> numFlag <b-badge variant="light">{{player.opponent.numFlag}}</b-badge></h5></div>
-        <div class="topElement text-warning">  <h5>numCannon<b-badge variant="light">{{player.opponent.numCannon}}</b-badge></h5></div>
-        <div class="topElement text-warning">  <h5>numWall<b-badge variant="light">{{player.opponent.numWall}}</b-badge></h5></div>
+        <div class="topElement text-warning">  <h5> Flags <b-badge variant="light">{{player.opponent.numFlag}}</b-badge></h5></div>
+        <div class="topElement text-warning">  <h5>Cannon<b-badge variant="light">{{player.opponent.numCannon}}</b-badge></h5></div>
+        <div class="topElement text-warning">  <h5>Wall<b-badge variant="light">{{player.opponent.numWall}}</b-badge></h5></div>
      
     </div>
     <div class="PRSBar bg-primary">
       <div class="buttons">
-        <b-button variant="success" class="PRSbutton">Paper</b-button>
-        <b-button variant="success" class="PRSbutton">Scissors</b-button>
-        <b-button variant="success" class="PRSbutton">Rock</b-button>
+        <b-button variant="success" class="PRSbutton" @click='PRSClicked("paper")'>Paper</b-button>
+        <b-button variant="success" class="PRSbutton" @click='PRSClicked("scissors")' >Scissors</b-button>
+        <b-button variant="success" class="PRSbutton" @click='PRSClicked("rock")'>Rock</b-button>
       </div>
     </div>
     <div class="bottomInfobar bg-secondary">
          <div class="topElement text-warning">  <h5> name: {{player.mainplayer.name}}></h5></div>
-        <div class="bottomElement text-warning">  <h5> numFlag <b-badge variant="light">{{player.mainplayer.numFlag}}</b-badge></h5></div>
-        <div class="bottomElement text-warning">  <h5>numCannon<b-badge variant="light">{{player.mainplayer.numCannon}}</b-badge></h5></div>
-        <div class="bottomElement text-warning">  <h5>numWall<b-badge variant="light">{{player.mainplayer.numWall}}</b-badge></h5></div>
+        <div class="bottomElement text-warning">  <h5> Flags <b-badge variant="light">{{player.mainplayer.numFlag}}</b-badge></h5></div>
+        <div class="bottomElement text-warning">  <h5>Canons<b-badge variant="light">{{player.mainplayer.numCannon}}</b-badge></h5></div>
+        <div class="bottomElement text-warning">  <h5>Walls<b-badge variant="light">{{player.mainplayer.numWall}}</b-badge></h5></div>
 
     </div>
 
@@ -57,8 +57,6 @@ export default {
   mounted() {
     console.log("mounted");
     // //initialised the gameScene with Players
-    var game = new GameScene(this.player.billy, this.player.opponent);
-    game.start();
 
     //Start to decide
   },
@@ -77,6 +75,7 @@ export default {
           scale: "0.05 0.05 0.05"
         }
       },
+      game: new GameScene(), 
       player: {
         mainplayer: new Player("billy"),
         opponent: new Player("opponent")
@@ -88,7 +87,45 @@ export default {
       var temp = this.model.mclaren;
       this.model.mclaren = this.model.dinosaur;
       this.model.dinosaur = temp;
+    },
+    PRSClicked(choice){
+      console.log(choice )
+      const result = this.game.playRockPaperScissors(this.player.mainplayer, this.player.opponent, choice)
+            switch (result) {
+        case 'a_win':
+           this.$swal({
+              icon: 'success',
+              title: 'Congrats, You Win',
+              html: `Your choice is <h3><font color="blue"> ${this.player.mainplayer.RPSChoice} </h3></font>
+              and your opponent choice is <h3><font color="red"> ${this.player.opponent.RPSChoice}. </h3></font>`,
+            })
+          break;
+
+        case 'b_win':
+           this.$swal({
+              icon: 'success',
+              title: 'Opps, You Lose',
+              html: `Your choice is <h3><font color="blue"> ${this.player.mainplayer.RPSChoice} </h3></font> 
+              and your opponent choice is <h3><font color="red"> ${this.player.opponent.RPSChoice}. </h3></font>`,
+            })
+          break;
+
+        case 'tie':
+           this.$swal({
+              icon: 'info',
+              title: 'opps, Tie',
+              html: `Your choice is  <h3><font color="blue">  ${this.player.mainplayer.RPSChoice}  </h3></font>
+              and your opponent choice is <h3><font color="red"> ${this.player.opponent.RPSChoice}. </h3></font>`,
+            })
+          break;
+
+        default:
+          break;
+      }
     }
+  },
+  computed: {
+
   }
 };
 </script>
@@ -109,9 +146,9 @@ export default {
 
 .topInfobar .topElement{
   padding: 0.5em;
-  margin: 1em;
+  /* margin: 1em; */
   border: 2px;
-  width: 7em;
+  /* width: 7em; */
   justify-content: center;
   text-align: center;
 }
@@ -130,9 +167,9 @@ export default {
 
 .bottomInfobar .bottomElement{
   padding: 0.5em;
-  margin: 1em;
+  /* margin: 1em; */
   border: 2px;
-  width: 7em;
+  /* width: 7em; */
   justify-content: center;
   text-align: center;
 }
