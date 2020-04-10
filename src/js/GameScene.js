@@ -8,20 +8,9 @@ class GameScene {
         this.gameLoser = null;
 
       }
-     start(){
-       this.state = GameState.RPS_STATE
-
-     }
-    update(){
-      
-    }
-    end(){
-      window.alert("the winner is "+ this.gameWinner.name, "this.loser is "+ this.gameLoser.name)
-    }
 
     playRockPaperScissors(player, opponent, choice){
       // RockPaperScissors
-
       const randomRPSChoice = ['rock', 'paper', 'scissors']
       player.RPSChoice = choice
       opponent.RPSChoice =  randomRPSChoice[Math.floor(Math.random()* randomRPSChoice.length)];
@@ -60,13 +49,6 @@ class GameScene {
       }
     }
 
-
-    makeDecision(winner, loser){ //Pass Player time
-      // winner do thing
-      console.log("the playRockPaperScissors() loser is" + loser.name)
-
-      //loser do thing
-    }
 
 }
 

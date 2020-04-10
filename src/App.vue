@@ -7,14 +7,14 @@
         <div class="topElement text-warning">  <h5>Wall<b-badge variant="light">{{player.opponent.numWall}}</b-badge></h5></div>
      
     </div>
-    <div class="PRSBar bg-primary">
+    <div class="PRSBar  bg-secondary ">
       <div class="buttons">
         <b-button variant="success" class="PRSbutton" @click='PRSClicked("paper")'>Paper</b-button>
         <b-button variant="success" class="PRSbutton" @click='PRSClicked("scissors")' >Scissors</b-button>
         <b-button variant="success" class="PRSbutton" @click='PRSClicked("rock")'>Rock</b-button>
       </div>
     </div>
-    <div class="bottomInfobar bg-secondary">
+    <div class="bottomInfobar bg-primary">
          <div class="topElement text-warning">  <h5> name: {{player.mainplayer.name}}></h5></div>
         <div class="bottomElement text-warning">  <h5> Flags <b-badge variant="light">{{player.mainplayer.numFlag}}</b-badge></h5></div>
         <div class="bottomElement text-warning">  <h5>Canons<b-badge variant="light">{{player.mainplayer.numCannon}}</b-badge></h5></div>
@@ -44,8 +44,11 @@
 
       <a-entity camera></a-entity>
     </a-scene>
+
   </span>
 </template>
+
+
 
 <script>
 import GameScene from "./js/GameScene";
@@ -77,8 +80,8 @@ export default {
       },
       game: new GameScene(), 
       player: {
-        mainplayer: new Player("billy"),
-        opponent: new Player("opponent")
+        mainplayer: new Player("billy", 0), // aiMode = 0
+        opponent: new Player("opponent", 1) // aiMode = 0
       },
     };
   },
@@ -89,39 +92,36 @@ export default {
       this.model.dinosaur = temp;
     },
     PRSClicked(choice){
-      console.log(choice )
-      const result = this.game.playRockPaperScissors(this.player.mainplayer, this.player.opponent, choice)
-            switch (result) {
-        case 'a_win':
-           this.$swal({
-              icon: 'success',
-              title: 'Congrats, You Win',
-              html: `Your choice is <h3><font color="blue"> ${this.player.mainplayer.RPSChoice} </h3></font>
-              and your opponent choice is <h3><font color="red"> ${this.player.opponent.RPSChoice}. </h3></font>`,
-            })
-          break;
+      console.log(choice + "clicked")
+      const RPSresult = this.game.playRockPaperScissors(this.player.mainplayer, this.player.opponent, choice)
+            console.log(RPSresult + "RPSresult")
 
-        case 'b_win':
            this.$swal({
-              icon: 'success',
-              title: 'Opps, You Lose',
-              html: `Your choice is <h3><font color="blue"> ${this.player.mainplayer.RPSChoice} </h3></font> 
-              and your opponent choice is <h3><font color="red"> ${this.player.opponent.RPSChoice}. </h3></font>`,
+              icon: RPSresult == 'a_win'? 'success': RPSresult == 'b_win'? 'error':'info',
+              title: RPSresult == 'a_win'? 'Congrats, You Win': RPSresult == 'b_win'? 'Opps, You Lose':'Tie, Please Try Again',
+              html: `Your opponent choice is <h3><font color="red"> ${this.player.opponent.RPSChoice} </h3></font> and 
+              Your choice is <h3><font color="blue"> ${this.player.mainplayer.RPSChoice} </h3></font>
+              `,
+              confirmButtonText: 'Ok,thanks'
+            }).then((result)=>{
+              if(result.value){
+                console.log(RPSresult);
+                if( RPSresult !== "tie"){
+                   let winner = RPSresult == 'a_win'? this.player.mainplayer: this.player.opponent
+                   let loser = RPSresult == 'a_win'? this.player.opponent: this.player.mainplayer
+                   if(winner.isBot){ // if the opponent won 
+                     console.log("the bot won and start to make decision")
+                   }else {
+                     console.log("the real people won start to make decision")
+                     this.makeDecision(winner, loser)
+                   }
+                   
+                }
+              }
             })
-          break;
-
-        case 'tie':
-           this.$swal({
-              icon: 'info',
-              title: 'opps, Tie',
-              html: `Your choice is  <h3><font color="blue">  ${this.player.mainplayer.RPSChoice}  </h3></font>
-              and your opponent choice is <h3><font color="red"> ${this.player.opponent.RPSChoice}. </h3></font>`,
-            })
-          break;
-
-        default:
-          break;
-      }
+    },
+    makeDecision(winner, loser){
+      console.log({winner,loser})
     }
   },
   computed: {

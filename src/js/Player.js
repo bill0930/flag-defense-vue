@@ -1,5 +1,5 @@
 class Player {
-    constructor(name){
+    constructor(name, isBot){
       this.name = name;
       this.numFlag = 3;
       this.numWall = 0;
@@ -7,7 +7,7 @@ class Player {
       this.isProtected = false;
       this.RPSChoice = null; //chose chohice for RockPaperScissors
       this.action = null; //chose options for upgrading
-      this.status = null;
+      this.isBot = isBot; //1 is for aiMode, 0 is for real people 
     }
   
     buildwall(){
@@ -67,6 +67,8 @@ class Player {
             break;
         }
         console.log("attacked" + player.name)
+    
+    
     }
   }
   
