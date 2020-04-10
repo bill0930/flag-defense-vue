@@ -2,20 +2,45 @@ class Player {
     constructor(name, isBot){
       this.name = name;
       this.numFlag = 3;
-      this.numWall = 0;
-      this.numCannon = 0;
-      this.isProtected = false;
+      this.numWall = 1;
+      this.numCannon = 0; //maximum 
       this.RPSChoice = null; //chose chohice for RockPaperScissors
-      this.action = null; //chose options for upgrading
       this.isBot = isBot; //1 is for aiMode, 0 is for real people 
+    }
+
+    get isProtected(){
+      return this.numWall > 0
+    }
+
+    get isMaxWall() {
+      return this.numWall == 3
+    }
+
+    get isMaxCannon() {
+      return this.numCannon == 2
+    }
+
+    get isNoWall() {
+      return this.numWall == 0
+    }
+
+    get isNoCannon() {
+      return this.numCannon == 0
+    }
+
+    get isHavingCannon(){
+      return this.numCannon > 0
+    }
+
+    get isHavingWall(){
+      return this.numWall > 0
     }
   
     buildwall(){
+
       if (this.numWall < 3) {
         this.numWall += 1
         console.log("the numWall of " + this.name + "has just increased")
-      } else {
-        console.log("buildWall failed due to the maximum numWall = 3")
       }
     }
     lostWall(){
@@ -30,9 +55,7 @@ class Player {
       if (this.numCannon < 2) {
         this.numCannon += 1
         console.log("the numCannon of " + this.name + "has just increased")
-      } else {
-        console.log("numCannon failed due to the maximum numWall = 3")
-      }
+      } 
     }
     lostCannon(){
         if (this.numCannon > 0) {
@@ -51,7 +74,7 @@ class Player {
       }
     }
 
-    attack(player, item){ // 
+    destroy(player, item){ // 
 
         switch (item) {
           case "cannon":

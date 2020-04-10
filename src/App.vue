@@ -9,9 +9,9 @@
     </div>
     <div class="PRSBar  bg-secondary ">
       <div class="buttons">
-        <b-button variant="success" class="PRSbutton" @click='PRSClicked("paper")'>Paper</b-button>
-        <b-button variant="success" class="PRSbutton" @click='PRSClicked("scissors")' >Scissors</b-button>
-        <b-button variant="success" class="PRSbutton" @click='PRSClicked("rock")'>Rock</b-button>
+        <b-button v-b-modal.modal-1 variant="success" class="PRSbutton" @click='PRSClicked("paper")'>Paper</b-button>
+        <b-button v-b-modal.modal-1 variant="success" class="PRSbutton" @click='PRSClicked("scissors")' >Scissors</b-button>
+        <b-button  v-b-modal.modal-1 variant="success" class="PRSbutton" @click='PRSClicked("rock")'>Rock</b-button>
       </div>
     </div>
     <div class="bottomInfobar bg-primary">
@@ -44,7 +44,69 @@
 
       <a-entity camera></a-entity>
     </a-scene>
+    
+    <!-- The pop up after clicking PRS button -->
+    <div class="PRSModal">
+      <b-modal id="modal-1" centered hide-footer title="The reuslt is">
+      <b-container>
+        <div class="d-block text-center">
+        <div v-if=" RPS.result === 'a_win'"> <!-- a_win case -->
+        <h2> <span class="text-primary" >{{this.player.mainplayer.RPSChoice}}</span>  vs  <span class="text-danger">{{this.player.opponent.RPSChoice}}</span> </h2>
+        <h3 class="text-success">'Congrats, You Win'</h3>
+        <h3>'Please make a decision'</h3>
+        <div>
+          you can choose to build a wall/cannon, or destroy one of the opponent's facilities
+        </div>
+        
+        <div class="actionPanel">
+          <hr>
+          <div class="build-buttons">
+            <b-row class="d-flex align-items-center"> 
+              <b-col cols="2" class="text-left" ><span>Build: </span></b-col>
+              <b-col class="d-flex justify-content-start">
+                <b-button :disabled="player.mainplayer.isMaxWall" size="sm" class="ml-1" @click='makeDecision("build_wall")'  >Wall</b-button>
+                <b-button :disabled="player.mainplayer.isMaxCannon" size="sm" class="ml-1" @click='makeDecision("build_cannon")'>Canon</b-button></b-col>
+              <b-col class="text-right text-monospace"> 
+                Flag={{this.player.mainplayer.numFlag}} <br> 
+                Cannon={{this.player.mainplayer.numCannon}}<br> 
+                Wall={{this.player.mainplayer.numWall}}
+                </b-col>
+            </b-row>
+          </div>
+            <hr>
+          <div class="attack-buttons">
+            <b-row class="d-flex align-items-start">
+              <b-col cols="2" class="text-left" ><span>Destroy: </span></b-col>
+              <b-col class="d-flex justify-content-start">
+                  <b-button :disabled="player.opponent.isNoWall || player.mainplayer.isNoCannon"  size="sm" class="ml-1" @click='makeDecision("destroy_wall")' >Wall</b-button> 
+                  <b-button :disabled="player.opponent.isNoCannon || player.mainplayer.isNoCannon" size="sm" class="ml-1" @click='makeDecision("destroy_cannon")' >Cannon</b-button>
+                  <b-button :disabled="player.opponent.isProtected || player.mainplayer.isNoCannon" size="sm" class="ml-1" @click='makeDecision("destroy_flag")'>Flag</b-button>              
+              </b-col>
+              <b-col class="text-right text-monospace">
+                Flag={{this.player.opponent.numFlag}} <br> 
+                Cannon={{this.player.opponent.numCannon}}<br> 
+                Wall={{this.player.opponent.numWall}}
+                </b-col>
+            </b-row>
+            
+        </div>
+        </div>
+        </div>
+        <div  v-else-if="RPS.result === 'b_win'">  <!-- b_win case -->
+           <h2> <span class="text-primary" >{{this.player.mainplayer.RPSChoice}}</span>  vs  <span class="text-danger">{{this.player.opponent.RPSChoice}}</span> </h2>
+           <h3 class="text-secondary">'Opps, You lose'</h3>
+           
+        </div>
+        <div v-else> <!-- TIe case -->
+        <h2> <span class="text-primary" >{{this.player.mainplayer.RPSChoice}}</span>  vs  <span class="text-danger">{{this.player.opponent.RPSChoice}}</span> </h2>
+        <h3 class="text-info"> Tie, Please try again</h3>
 
+        </div>
+      </div>
+      </b-container>
+      
+      </b-modal>
+    </div>
   </span>
 </template>
 
@@ -81,8 +143,14 @@ export default {
       game: new GameScene(), 
       player: {
         mainplayer: new Player("billy", 0), // aiMode = 0
-        opponent: new Player("opponent", 1) // aiMode = 0
+        opponent: new Player("opponent", 1), // aiMode = 0
       },
+      RPS: {
+        result: '' ,// a_win, b_win, tie
+        winner: {},
+        loser: {}
+      }
+
     };
   },
   methods: {
@@ -93,39 +161,81 @@ export default {
     },
     PRSClicked(choice){
       console.log(choice + "clicked")
-      const RPSresult = this.game.playRockPaperScissors(this.player.mainplayer, this.player.opponent, choice)
-            console.log(RPSresult + "RPSresult")
+      this.RPS.result = this.game.playRockPaperScissors(this.player.mainplayer, this.player.opponent, choice)
+      console.log(this.RPS.result + " the result")
+      this.RPS.winner = this.RPS.result === 'a_win' ? this.player.mainplayer: this.player.opponent
+      this.RPS.loser = this.RPS.result === 'a_win' ? this.player.opponent: this.player.mainplayer
 
-           this.$swal({
-              icon: RPSresult == 'a_win'? 'success': RPSresult == 'b_win'? 'error':'info',
-              title: RPSresult == 'a_win'? 'Congrats, You Win': RPSresult == 'b_win'? 'Opps, You Lose':'Tie, Please Try Again',
-              html: `Your opponent choice is <h3><font color="red"> ${this.player.opponent.RPSChoice} </h3></font> and 
-              Your choice is <h3><font color="blue"> ${this.player.mainplayer.RPSChoice} </h3></font>
-              `,
-              confirmButtonText: 'Ok,thanks'
-            }).then((result)=>{
-              if(result.value){
-                console.log(RPSresult);
-                if( RPSresult !== "tie"){
-                   let winner = RPSresult == 'a_win'? this.player.mainplayer: this.player.opponent
-                   let loser = RPSresult == 'a_win'? this.player.opponent: this.player.mainplayer
-                   if(winner.isBot){ // if the opponent won 
-                     console.log("the bot won and start to make decision")
-                   }else {
-                     console.log("the real people won start to make decision")
-                     this.makeDecision(winner, loser)
-                   }
-                   
-                }
-              }
-            })
+      if (this.RPS.result !== 'tie'){
+          if(this.RPS.winner.isBot){
+          console.log("the bot is start to make movement" )
+        } else {
+          console.log("the player is making a decision" )
+        }
+      }
+
+      
+      
     },
-    makeDecision(winner, loser){
-      console.log({winner,loser})
+    makeDecision(decision){
+      // window.alert(decision)
+    
+      switch (decision) {
+        case 'build_wall':
+          this.RPS.winner.buildwall()
+          this.$bvToast.toast(` ${this.RPS.winner.name}has just built a wall`, {
+          autoHideDelay: 5000,
+          appendToast: false
+        })
+          break;
+        case 'build_cannon':
+          this.RPS.winner.buildCannon()
+          this.$bvToast.toast(` ${this.RPS.winner.name} has just built a cannon`, {
+          autoHideDelay: 5000,
+          appendToast: false
+        })
+          break;
+        case 'destroy_wall':
+          this.RPS.winner.destroy(this.RPS.loser,'wall')
+          this.$bvToast.toast(` ${this.RPS.winner.name} has just destroyed a wall from  ${this.RPS.loser.name} `, {
+          autoHideDelay: 5000,
+          appendToast: false
+        })
+          break;
+        case 'destroy_cannon':
+          this.RPS.winner.destroy(this.RPS.loser,'cannon')
+          this.$bvToast.toast(` ${this.RPS.winner.name} has just destroyed a cannon from  ${this.RPS.loser.name} `, {
+          autoHideDelay: 5000,
+          appendToast: false
+        })
+          break;
+        case 'destroy_flag':
+          this.RPS.winner.destroy(this.RPS.loser,'flag')
+          this.$bvToast.toast(` ${this.RPS.winner.name} has just destroyed a flag from  ${this.RPS.loser.name} `, {
+          autoHideDelay: 5000,
+          appendToast: false
+        })
+          break;
+        default:
+          break;
+      }
+
+      this.$bvModal.hide("modal-1")	
     }
   },
-  computed: {
+  watch: {
+    player:{
+        handler: function(newValue){
+          if (newValue.mainplayer.numFlag == 0 || newValue.opponent.numFlag == 0){
+            this.game.loser = this.player.mainplayer.numFlag == 0? this.player.mainplayer : this.player.opponent
+            this.game.winner = this.player.mainplayer.numFlag > 0? this.player.mainplayer : this.player.opponent
+            this.game.end()
+            console.log("The winner is " + this.game.winner.name + " and the loser is " + this.game.loser.name)
 
+          }
+        },
+        deep: true //enable for obj properties chagned
+    },
   }
 };
 </script>

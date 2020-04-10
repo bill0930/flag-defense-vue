@@ -1,11 +1,12 @@
+
 const GameState = Object.freeze({"ENTERED":1, "RPS_STATE":2, "END_STATE":3})
 
 class GameScene {
     
     constructor(){
         this.state = GameState.ENTERED
-        this.gameWinner = null;
-        this.gameLoser = null;
+        this.winner = null;
+        this.loser = null;
 
       }
 
@@ -14,7 +15,7 @@ class GameScene {
       const randomRPSChoice = ['rock', 'paper', 'scissors']
       player.RPSChoice = choice
       opponent.RPSChoice =  randomRPSChoice[Math.floor(Math.random()* randomRPSChoice.length)];
-
+      
       const result = this.checkWinLose(player.RPSChoice, opponent.RPSChoice)
       return result
     }
@@ -49,6 +50,9 @@ class GameScene {
       }
     }
 
+    end(){
+      console.log("the game end!!!")
+    }
 
 }
 
