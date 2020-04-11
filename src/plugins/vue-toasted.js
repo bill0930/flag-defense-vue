@@ -24,16 +24,16 @@ let options = {
     (payload) => {
         if (payload.action == 'build'){
             return `
-            <h5> <span class="text-primary">${payload.winner.name}</span>  
+            <h5> <u>${payload.winner.name}</u>
             has just built  
-            <span class="text-warning">${payload.item}</span> </h5>
+            <u>${payload.item} <u></h5>
             `;
         }
         else if (payload.action == 'destroy'){
             return `
-            <h5> <span class="text-primary">${payload.winner.name}</span>  
+            <h5><u>${payload.winner.name}</u>
             has just destroyed 
-            <span class="text-warning">${payload.item}</span> of <span class="text-danger">${payload.loser.name}</span></h5>
+            <u>${payload.item}</u> from  <u>${payload.loser.name}</u></h5>
             `
         }
         else {
