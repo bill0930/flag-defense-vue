@@ -1,26 +1,36 @@
 <template>
   <div id="RPSBar">
     <div class="RPSBar buttons bg-secondary">
-      <b-button
-        v-b-modal.modal-1
-        variant="success"
-        class="RPSbutton"
-        @click='RPSClicked("paper")'
-      >Paper</b-button>
-      <b-button
-        v-b-modal.modal-1
-        variant="success"
-        class="RPSbutton"
-        @click='RPSClicked("scissors")'
-      >Scissors</b-button>
-      <b-button
-        v-b-modal.modal-1
-        variant="success"
-        class="RPSbutton"
-        @click='RPSClicked("rock")'
-      >Rock</b-button>
+      <div v-if ='game.winner == null'>
+          <b-button
+          v-b-modal.modal-1
+          variant="success"
+          class="RPSbutton"
+          @click='RPSClicked("paper")'
+        >Paper</b-button>
+        <b-button
+          v-b-modal.modal-1
+          variant="success"
+          class="RPSbutton"
+          @click='RPSClicked("scissors")'
+        >Scissors</b-button>
+        <b-button
+          v-b-modal.modal-1
+          variant="success"
+          class="RPSbutton"
+          @click='RPSClicked("rock")'
+        >Rock</b-button>
+      </div>
+      <div v-else>
+          <h3> winner:<u>{{this.game.winner.name}}</u> loser: <u>{{this.game.loser.name}} </u> <b-button
+          variant="info"
+          @click='reset()'
+        >RESET</b-button></h3>
+
+      </div>
     </div>
-    <b-modal id="modal-1" centered hide-footer title="The reuslt is">
+
+    <b-modal id="modal-1" centered hide-header hide-footer>
       <b-container>
         <div class="d-block text-center">
           <div v-if=" RPS.result === 'a_win'">
@@ -107,6 +117,7 @@
               <span class="text-danger">{{this.player.opponent.RPSChoice}}</span>
             </h2>
             <h3 class="text-secondary">'Opps, You lose'</h3>
+              
           </div>
           <div v-else>
             <!-- TIe case -->
@@ -155,6 +166,7 @@ export default {
       if (this.RPS.result !== "tie") {
         if (this.RPS.winner.isBot) {
           console.log("the bot is start to make movement");
+          this.botDecision(this.RPS.winner, this.RPS.loser)
         } else {
           console.log("the player is making a decision");
         }
@@ -199,16 +211,36 @@ export default {
           this.RPS.winner.destroy(this.RPS.loser, "flag");
           break;
         default:
+          payload.action = "no_action";
           break;
       }
       this.$toasted.global.makeDecision(payload);
       this.$bvModal.hide("modal-1");
+    },
+    botDecision(bot, player){
+      //last chance
+      if(bot.numFlag == 1 && !bot.isProtected){this.makeDecision('build_wall');}
+      // win the game
+      else if(bot.isHavingCannon && !player.isProtected){this.makeDecision('destroy_flag');}
+      else if (bot.isHavingCannon && player.isProtected && !player.isHavingCannon){ this.makeDecision('destroy_wall')}
+      else if (bot.isHavingCannon && player.isProtected && player.isHavingCannon){ 
+        const ranNum = Math.floor(Math.random() *2 );
+        ranNum == 1 ? this.makeDecision('destroy_wall') : this.makeDecision('destroy_cannon')
+      }
+      else if (!bot.isHavingCannon && player.isProtected && player.isHavingCannon){ this.makeDecision('build_wall')}
+      else if (!bot.isHavingCannon && player.isProtected && !player.isHavingCannon){ this.makeDecision('build_cannon')}
+    },
+
+    reset(){
+      this.game.winner = null;
+      this.game.loser = null;
+      this.player.mainplayer.reset();
+      this.player.opponent.reset();
     }
   }
-};
+}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .RPSBar {
   position: absolute;

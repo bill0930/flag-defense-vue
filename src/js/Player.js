@@ -1,9 +1,9 @@
 class Player {
     constructor(name, isBot){
       this.name = name;
-      this.numFlag = 3;
-      this.numWall = 1;
-      this.numCannon = 0; //maximum 
+      this.numFlag = 3; 
+      this.numWall = 1; //maximum = 3
+      this.numCannon = 0; //maximum = 2
       this.RPSChoice = null; //chose chohice for RockPaperScissors
       this.isBot = isBot; //1 is for aiMode, 0 is for real people 
     }
@@ -14,6 +14,10 @@ class Player {
 
     get isMaxWall() {
       return this.numWall == 3
+    }
+
+    get isHavingFlag(){
+      return this.numFlag > 0
     }
 
     get isMaxCannon() {
@@ -30,10 +34,6 @@ class Player {
 
     get isHavingCannon(){
       return this.numCannon > 0
-    }
-
-    get isHavingWall(){
-      return this.numWall > 0
     }
   
     buildwall(){
@@ -92,6 +92,12 @@ class Player {
         console.log("attacked" + player.name)
     
     
+    }
+    reset(){
+      this.numFlag = 3; 
+      this.numWall = 1; //maximum = 3
+      this.numCannon = 0; //maximum = 2
+      this.RPSChoice = null; //chose chohice for RockPaperScissors
     }
   }
   

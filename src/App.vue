@@ -5,7 +5,7 @@
         <div class="topElement text-warning">  <h5> Flags <b-badge variant="light">{{player.opponent.numFlag}}</b-badge></h5></div>
         <div class="topElement text-warning">  <h5>Cannon<b-badge variant="light">{{player.opponent.numCannon}}</b-badge></h5></div>
         <div class="topElement text-warning">  <h5>Wall<b-badge variant="light">{{player.opponent.numWall}}</b-badge></h5></div>
-     
+
     </div>
     
     <RPSBar :player='player' :RPS='RPS' :game='game'> </RPSBar>
@@ -104,9 +104,6 @@ export default {
           if (newValue.mainplayer.numFlag == 0 || newValue.opponent.numFlag == 0){
             this.game.loser = this.player.mainplayer.numFlag == 0? this.player.mainplayer : this.player.opponent
             this.game.winner = this.player.mainplayer.numFlag > 0? this.player.mainplayer : this.player.opponent
-            this.game.end()
-            console.log("The winner is " + this.game.winner.name + " and the loser is " + this.game.loser.name)
-
           }
         },
         deep: true //enable for obj properties chagned

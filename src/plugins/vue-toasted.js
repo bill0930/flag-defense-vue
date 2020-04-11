@@ -15,7 +15,7 @@ let options = {
     },
     position: "bottom-center", 
     theme: 'toasted-primary' ,
-    duration : 1500,
+    duration : 3000,
     fitToScreen: true
   };
   
@@ -35,6 +35,11 @@ let options = {
             has just destroyed 
             <span class="text-warning">${payload.item}</span> of <span class="text-danger">${payload.loser.name}</span></h5>
             `
+        }
+        else {
+          return `
+          <h5>No action could be made </h5>
+          `
         }
         // if there is a message show it with the message
     },

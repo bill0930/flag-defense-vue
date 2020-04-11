@@ -1,10 +1,8 @@
 
-const GameState = Object.freeze({"ENTERED":1, "RPS_STATE":2, "END_STATE":3})
 
 class GameScene {
     
     constructor(){
-        this.state = GameState.ENTERED
         this.winner = null;
         this.loser = null;
 
