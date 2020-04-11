@@ -41,7 +41,6 @@
             </h2>
             <h3 class="text-success">'Congrats, You Win'</h3>
             <h3>'Please make a decision'</h3>
-            <div>you can choose to build a wall/cannon, or destroy one of the opponent's facilities</div>
 
             <div class="actionPanel">
               <hr />
@@ -62,7 +61,7 @@
                       size="sm"
                       class="ml-1"
                       @click="makeDecision('build_cannon')"
-                    >Canon</b-button>
+                    >Cannon</b-button>
                   </b-col>
                   <b-col class="text-right text-monospace">
                     Flag={{this.player.mainplayer.numFlag}}
@@ -75,11 +74,11 @@
               </div>
               <hr />
               <div class="attack-buttons">
-                <b-row class="d-flex align-items-start">
+                <b-row class="d-flex align-items-center">
                   <b-col cols="2" class="text-left">
                     <span>Destroy:</span>
                   </b-col>
-                  <b-col class="d-flex justify-content-start">
+                  <b-col class="d-flex justify-content-center">
                     <b-button
                       :disabled="player.opponent.isNoWall || player.mainplayer.isNoCannon"
                       size="sm"
