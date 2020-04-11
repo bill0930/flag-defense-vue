@@ -11,7 +11,7 @@
     <RPSBar :player='player' :RPS='RPS' :game='game'> </RPSBar>
 
     <div class="bottomInfobar bg-primary">
-         <div class="topElement text-warning">  <h5> name: {{player.mainplayer.name}}></h5></div>
+         <div class="bottomElement text-warning">  <h5> name: {{player.mainplayer.name}}</h5></div>
         <div class="bottomElement text-warning">  <h5> Flags <b-badge variant="light">{{player.mainplayer.numFlag}}</b-badge></h5></div>
         <div class="bottomElement text-warning">  <h5>Canons<b-badge variant="light">{{player.mainplayer.numCannon}}</b-badge></h5></div>
         <div class="bottomElement text-warning">  <h5>Walls<b-badge variant="light">{{player.mainplayer.numWall}}</b-badge></h5></div>
