@@ -28,7 +28,6 @@
           :scale="model.castle.scale"
           :rotation="model.castle.rotation"
           :gltf-model="model.castle.url"
-          animation-mixer
         ></a-entity>
         <a-entity
           id="redmainflag" 
@@ -58,7 +57,7 @@
 
         <a-box
           id = "gravelWall"
-          v-if ='player.mainplayer.numWall >= 1'
+          v-if ='player.opponent.numWall >= 1'
           :position = "model.wall.position" 
           :depth = "model.wall.depth"
           :height = "model.wall.height"
@@ -84,7 +83,6 @@
           :scale="model.castle.scale"
           :rotation="model.castle.rotation"
           :gltf-model="model.castle.url"
-          animation-mixer
         ></a-entity>
         <a-entity
           id="bluemainflag"
@@ -137,7 +135,6 @@
         :scale = "model.cannon.leftCannon.scale" 
         :rotation = "model.cannon.leftCannon.rotation"
         :gltf-model= "model.cannon.leftCannon.url" 
-        animation-mixer
         >
         
         </a-entity>
@@ -148,7 +145,7 @@
         :scale = "model.cannon.rightCannon.scale" 
         :rotation = "model.cannon.rightCannon.rotation"
         :gltf-model= "model.cannon.rightCannon.url" 
-        animation-mixer>
+        >
         </a-entity>
 
       </a-marker>

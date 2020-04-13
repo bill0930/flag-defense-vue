@@ -8,6 +8,9 @@ class Player {
       this.isBot = isBot; //1 is for aiMode, 0 is for real people 
     }
 
+    get isHavingWall(){
+      return this.numWall > 0
+    }
     get isProtected(){
       return this.numWall > 0
     }

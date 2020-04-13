@@ -207,19 +207,25 @@ export default {
       this.$bvModal.hide("modal-1");
     },
     botDecision(bot, player){
-      //last chance
-      if(bot.numFlag == 1 && !bot.isProtected){this.makeDecision('build_wall');}
-      // win the game
-      else if(bot.isHavingCannon && !player.isProtected){this.makeDecision('destroy_flag');}
-      else if (bot.isHavingCannon && player.isProtected && !player.isHavingCannon){ this.makeDecision('destroy_wall')}
-      else if (bot.isHavingCannon && player.isProtected && player.isHavingCannon){ 
-        const ranNum = Math.floor(Math.random() *2 );
-        ranNum == 1 ? this.makeDecision('destroy_wall') : this.makeDecision('destroy_cannon')
+      
+      // if havingWall and haveing cannon means good, keep destorying -->Flags-->walls-->cannon
+      if( (bot.isHavingWall) && bot.isHavingCannon){ 
+        // destory
+        if(player.isNoWall){this.makeDecision('destroy_flag')}
+        else{
+            if(bot.isMaxCannon){ // if having two cannons then destroy opponent;s cabbib furst
+              if(player.numCannon == 1){ this.makeDecision('destroy_cannon')} //no need for checking wallNum since isNowall checked
+              else {this.makeDecision('destroy_wall') }
+            }
+            else{
+               {this.makeDecision('destroy_wall') }
+            } 
+           
+        }
       }
-      else if (!bot.isHavingCannon && player.isProtected && player.isHavingCannon){ this.makeDecision('build_wall')}
-      else if (!bot.isHavingCannon && player.isProtected && !player.isHavingCannon){ this.makeDecision('build_cannon')}
+      else if(bot.isNoWall && bot.isNoCannon){this.makeDecision('build_wall');}
+      else if (bot.isHavingWall && bot.isNoCannon){this.makeDecision('build_cannon');}
     },
-
     reset(){
       this.game.winner = null;
       this.game.loser = null;
