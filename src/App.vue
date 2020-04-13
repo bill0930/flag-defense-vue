@@ -20,26 +20,140 @@
    
 
     <a-scene embedded arjs>
+      <!-- opponent -->
       <a-marker preset="hiro">
         <a-entity
-          id="mclaren"
-          position="0 0 0"
-          :scale="model.mclaren.scale"
-          :rotation="model.mclaren.rotation"
-          :gltf-model="model.mclaren.url"
+          id="redcastle"
+          :position="model.castle.position"
+          :scale="model.castle.scale"
+          :rotation="model.castle.rotation"
+          :gltf-model="model.castle.url"
+          animation-mixer
         ></a-entity>
+        <a-entity
+          id="redmainflag" 
+          v-if ='player.opponent.numFlag >= 1'
+          :position="model.flags.red.mainflag.position"
+          :scale="model.flags.red.mainflag.scale"
+          :rotation="model.flags.red.mainflag.rotation"
+          :gltf-model="model.flags.red.mainflag.url"
+        ></a-entity>
+        <a-entity
+          id="redleftflag"
+          v-if ='player.opponent.numFlag >= 2'
+          :position="model.flags.red.leftflag.position"
+          :scale="model.flags.red.leftflag.scale"
+          :rotation="model.flags.red.leftflag.rotation"
+          :gltf-model="model.flags.red.leftflag.url"
+        ></a-entity>
+        <a-entity
+          id="redrightflag"
+          v-if ='player.opponent.numFlag >= 3'
+          :position="model.flags.red.rightflag.position"
+          :scale="model.flags.red.rightflag.scale"
+          :rotation="model.flags.red.rightflag.rotation"
+          :gltf-model="model.flags.red.rightflag.url"
+        ></a-entity>
+                  <!-- :width = "model.wall.width" -->
+
+        <a-box
+          id = "gravelWall"
+          v-if ='player.mainplayer.numWall >= 1'
+          :position = "model.wall.position" 
+          :depth = "model.wall.depth"
+          :height = "model.wall.height"
+          :width = "player.opponent.numWall"
+          :src = "model.wall.src"
+        >
+         <a-entity 
+        id = "redWallText"
+        :text= "getOpponentwallText"
+        :scale = "model.wall.wallText.scale"
+        :position = "model.wall.wallTextPosition" 
+        ></a-entity>
+        </a-box>
+
       </a-marker>
 
+
+      <!-- mainplayer -->
       <a-marker preset="kanji">
         <a-entity
-          id="dinosaur"
-          position="0 0 0"
-          :scale="model.dinosaur.scale"
-          :rotation="model.dinosaur.rotation"
-          :gltf-model="model.dinosaur.url"
+          id="bluecastle"
+          :position="model.castle.position"
+          :scale="model.castle.scale"
+          :rotation="model.castle.rotation"
+          :gltf-model="model.castle.url"
+          animation-mixer
         ></a-entity>
-        <a-box color="red" position="0 2 -5" rotation="0 45 45" scale="2 2 2"></a-box>
+        <a-entity
+          id="bluemainflag"
+          v-if ='player.mainplayer.numFlag >= 1'
+          :position="model.flags.blue.mainflag.position"
+          :scale="model.flags.blue.mainflag.scale"
+          :rotation="model.flags.blue.mainflag.rotation"
+          :gltf-model="model.flags.blue.mainflag.url"
+        ></a-entity>
+        <a-entity
+          id="blueleftflag"
+          v-if ='player.mainplayer.numFlag >= 2'
+          :position="model.flags.blue.leftflag.position"
+          :scale="model.flags.blue.leftflag.scale"
+          :rotation="model.flags.blue.leftflag.rotation"
+          :gltf-model="model.flags.blue.leftflag.url"
+        ></a-entity>
+        <a-entity
+          id="bluerightflag"
+          v-if ='player.mainplayer.numFlag >= 3'
+          :position="model.flags.blue.rightflag.position"
+          :scale="model.flags.blue.rightflag.scale"
+          :rotation="model.flags.blue.rightflag.rotation"
+          :gltf-model="model.flags.blue.rightflag.url"
+        ></a-entity>
+
+  <!-- wall and Wall text -->
+        <a-box
+          id = "bluegravelWall"
+          v-if ='player.mainplayer.numWall >= 1'
+          :position = "model.wall.position" 
+          :depth = "model.wall.depth"
+          :height = "model.wall.height"
+          :width = "player.mainplayer.numWall"
+          :src = "model.wall.src"
+        >
+          <a-entity 
+          id = "redWallText"
+          :text= "getMainplayerwallText"
+          :scale = "model.wall.wallText.scale"
+          :position = "model.wall.wallTextPosition" 
+          ></a-entity>
+        </a-box>
+
+<!-- cannon -->
+        <a-entity
+        id = "leftCannon"
+        v-if ='player.mainplayer.numCannon >= 1'
+        :position = "model.cannon.leftCannon.position" 
+        :scale = "model.cannon.leftCannon.scale" 
+        :rotation = "model.cannon.leftCannon.rotation"
+        :gltf-model= "model.cannon.leftCannon.url" 
+        animation-mixer
+        >
+        
+        </a-entity>
+        <a-entity
+        id = "rightCannon"
+        v-if ='player.mainplayer.numCannon >= 2'
+        :position = "model.cannon.rightCannon.position" 
+        :scale = "model.cannon.rightCannon.scale" 
+        :rotation = "model.cannon.rightCannon.rotation"
+        :gltf-model= "model.cannon.rightCannon.url" 
+        animation-mixer>
+        </a-entity>
+
       </a-marker>
+
+
 
       <a-entity camera></a-entity>
     </a-scene>
@@ -61,27 +175,9 @@ export default {
   },
   mounted() {
     console.log("mounted");
-    // //initialised the gameScene with Players
-
-    //Start to decide
   },
   data() {
     return {
-      model: {
-        mclaren: {
-          url: " /gITF/mclaren/scene.gltf",
-          position: "0 0 0",
-          rotation: "-90 0 0",
-          scale: "0.005 0.005 0.005"
-        },
-        dinosaur: {
-          url:
-            "https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf",
-          position: "0 0 0",
-          rotation: "90 0 0",
-          scale: "0.05 0.05 0.05"
-        }
-      },
       game: new GameScene(), 
       player: {
         mainplayer: new Player("billy", 0), // aiMode = 0
@@ -91,6 +187,91 @@ export default {
         result: '' ,// a_win, b_win, tie
         winner: {},
         loser: {}
+      },
+
+      model: {
+        castle: {
+          url: "/glTF/castle/scene.gltf",
+          position: "0 0 0",
+          rotation: "90 0 0",
+          scale: "0.01 0.01 0.01"
+        },
+        flags:{
+          blue:{
+            mainflag: {
+              url: "/glTF/flag_blue/scene.gltf",
+              position: "0 0 0",
+              rotation: "270 90 90",
+              scale: "0.5 0.5 0.5"
+            },
+            leftflag: {
+              url: "/glTF/flag_blue/scene.gltf",
+              position: "-0.5 0 0",
+              rotation: "270 90 90",
+              scale: "0.5 0.5 0.5"
+            },
+            rightflag: {
+              url: "/glTF/flag_blue/scene.gltf",
+              position: "0.5 0 0",
+              rotation: "270 90 90",
+              scale: "0.5 0.5 0.5"
+            },
+          },
+          red:{
+            mainflag: {
+              url: "/glTF/flag_red/scene.gltf",
+              position: "0 0 0",
+              rotation: "90 0 0",
+              scale: "0.5 0.5 0.5"
+            },
+            leftflag: {
+              url: "/glTF/flag_red/scene.gltf",
+              position: "-0.5 0 0",
+              rotation: "90 0 0",
+              scale: "0.5 0.5 0.5"
+            },
+            rightflag: {
+              url: "/glTF/flag_red/scene.gltf",
+              position: "0.5 0 0",
+              rotation: "90 0 0",
+              scale: "0.5 0.5 0.5"
+            },
+          },
+        },
+        wall:{
+          position: "0 -1 0",
+          depth: 0.5,
+          height: 0.3,
+          width: 1, //level 1, 2,3 
+          rotation: "90 0 0",
+          src: "/texture/gravel.png",
+          wallTextPosition: "0 -0.25 0",
+          wallTextScale: "2 2 2",
+          wallText: "align: center; width: 6;value: The wall level is "
+        },
+
+        cannon: {
+          leftCannon: {
+            url: "/glTF/simple_cannon/scene.gltf",
+            position: "-0.9 0 0",
+            rotation: "90 0 0",
+            scale: "0.001 0.001  0.001"
+          },
+          rightCannon: {
+            url: "/glTF/simple_cannon/scene.gltf",
+            position: "0.9 0 0",
+            rotation: "90 0 0",
+            scale: "0.001 0.001  0.001"
+          },
+          
+        },
+        dinosaur: {
+          url:
+            "https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf",
+          position: "0 0 0",
+          rotation: "90 0 0",
+          scale: "0.05 0.05 0.05"
+        }
       }
 
     };
@@ -101,8 +282,21 @@ export default {
       this.model.mclaren = this.model.dinosaur;
       this.model.dinosaur = temp;
     },
-    
+ 
+
   },
+  computed:{
+    getMainplayerwallText: function(){
+      return this.model.wall.wallText + this.player.mainplayer.numWall + "of 3"
+    },
+
+    getOpponentwallText: function(){
+      return this.model.wall.wallText + this.player.opponent.numWall + "of 3"
+    },
+    
+
+  },
+
   watch: {
     player:{
         handler: function(newValue){
@@ -136,18 +330,7 @@ export default {
   justify-content: center;
   text-align: center;
 }
-/* 
-.bottomInfobar {
-  position: absolute;
-  bottom: 5em;
-  left: 0;
-  width: 100%;
-  height: 3em;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  z-index: 10;
-} */
+
 
 .bottomInfobar {
   position: absolute;

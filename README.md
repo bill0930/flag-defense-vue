@@ -1,24 +1,10 @@
-# flag-defense-vue
 
-## Project setup
-```
-npm install
-```
+### Texture: 
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+gravel: https://www.3dxo.com/textures/10519_gravel_2
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### 3D models:  
+Castle:     https://skfb.ly/6RLIt
+Blue Flag:  https://skfb.ly/69FnY
+Red Flags:  https://skfb.ly/69UEp
+Cannon:     https://skfb.ly/6zO7z

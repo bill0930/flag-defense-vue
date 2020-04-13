@@ -20,6 +20,12 @@
           class="RPSbutton"
           @click='RPSClicked("rock")'
         ><h3><font-awesome-icon class="text-primary" :icon="['fa', 'hand-rock']" /></h3></b-button>
+        <span class= "FSbutton">
+                  <b-button id="goFS" @click="toggleFullScreen()">
+          <font-awesome-icon class="text-warning" :icon="['fa', 'expand-arrows-alt']" />
+          </b-button>
+        </span>
+
 
       </div>
       <div v-else>
@@ -69,13 +75,6 @@
                       @click="makeDecision('build_cannon')"
                     >Cannon</b-button>
                   </b-col>
-                  <b-col class="text-right text-monospace">
-                    Flag={{this.player.mainplayer.numFlag}}
-                    <br />
-                    Cannon={{this.player.mainplayer.numCannon}}
-                    <br />
-                    Wall={{this.player.mainplayer.numWall}}
-                  </b-col>
                 </b-row>
               </div>
               <hr />
@@ -84,7 +83,7 @@
                   <b-col cols="2" class="text-left">
                     <span>Destroy:</span>
                   </b-col>
-                  <b-col class="d-flex justify-content-center">
+                  <b-col class="d-flex justify-content-start">
                     <b-button
                       :disabled="player.opponent.isNoWall || player.mainplayer.isNoCannon"
                       size="sm"
@@ -103,13 +102,6 @@
                       class="ml-1"
                       @click="makeDecision('destroy_flag')"
                     >Flag</b-button>
-                  </b-col>
-                  <b-col class="text-right text-monospace">
-                    Flag={{this.player.opponent.numFlag}}
-                    <br />
-                    Cannon={{this.player.opponent.numCannon}}
-                    <br />
-                    Wall={{this.player.opponent.numWall}}
                   </b-col>
                 </b-row>
               </div>
@@ -233,7 +225,22 @@ export default {
       this.game.loser = null;
       this.player.mainplayer.reset();
       this.player.opponent.reset();
-    }
+    },
+
+      toggleFullScreen() {
+      var doc = window.document;
+      var docEl = doc.documentElement;
+
+      var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+      var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+      if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+        requestFullScreen.call(docEl);
+      }
+      else {
+        cancelFullScreen.call(doc);
+      }
+}
   }
 }
 </script>
@@ -261,5 +268,11 @@ export default {
   width: 3em;
   height: 3em;
   /* z-index; */
+}
+
+.FSbutton {
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 </style>
