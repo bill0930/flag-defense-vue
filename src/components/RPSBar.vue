@@ -213,11 +213,18 @@ export default {
         // destory
         if(player.isNoWall){this.makeDecision('destroy_flag')}
         else{
-            if(bot.isMaxCannon){ // if having two cannons then destroy opponent;s cabbib furst
+          //enter the condition that player has walls
+            if(bot.isMaxCannon){
+              //enter the condition that bot has two cannon
               if(player.numCannon == 1){ this.makeDecision('destroy_cannon')} //no need for checking wallNum since isNowall checked
-              else {this.makeDecision('destroy_wall') }
+              else (player.numCannon == 2)
+                {
+                const ranNum = Math.Floor(Math.random()*2) //0 for cannon 1 for wall
+                if (ranNum == 0){this.makeDecision('destroy_cannon')} 
+                else if (ranNum == 1){this.makeDecision('destroy_wall')} 
+                }
             }
-            else{
+            else{ //enter the condition that bot has only one cannon
                {this.makeDecision('destroy_wall') }
             } 
            
