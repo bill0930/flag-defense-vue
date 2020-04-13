@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import './plugins/bootstrap-vue'
 import './plugins/vue-toasted'
+import './plugins/fontawesome'
 
 import VueSweetalert2 from 'vue-sweetalert2';
 // If you don't need the styles, do not connect

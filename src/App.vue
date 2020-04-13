@@ -1,22 +1,23 @@
 <template>
   <span id="app">
-    <div class="topInfobar bg-danger"> 
-        <div class="topElement text-warning">  <h5> Opponent: {{player.opponent.name}} </h5></div>
-        <div class="topElement text-warning">  <h5> Flags <b-badge variant="light">{{player.opponent.numFlag}}</b-badge></h5></div>
-        <div class="topElement text-warning">  <h5>Cannon<b-badge variant="light">{{player.opponent.numCannon}}</b-badge></h5></div>
-        <div class="topElement text-warning">  <h5>Wall<b-badge variant="light">{{player.opponent.numWall}}</b-badge></h5></div>
+    <div class="topInfobar bg-danger ">  
+        <div class="topElement text-warning ">  <h5> Opponent: {{player.opponent.name}} </h5></div>
+        <div class="topElement text-warning ">  <h5> Flag <b-badge variant="light">{{player.opponent.numFlag}}</b-badge></h5></div>
+        <div class="topElement text-warning ">  <h5>Cannon <b-badge variant="light">{{player.opponent.numCannon}}</b-badge></h5></div>
+        <div class="topElement text-warning ">  <h5>Wall <b-badge variant="light">{{player.opponent.numWall}}</b-badge></h5></div>
+       
 
     </div>
-    
+     <div class="bottomInfobar bg-primary">
+        <div class="bottomElement text-warning ">  <h5>Player: {{player.mainplayer.name}}</h5></div>
+        <div class="bottomElement text-warning ">  <h5>Flag <b-badge variant="light">{{player.mainplayer.numFlag}}</b-badge></h5></div>
+        <div class="bottomElement text-warning ">  <h5>Canon <b-badge variant="light">{{player.mainplayer.numCannon}}</b-badge></h5></div>
+        <div class="bottomElement text-warning ">  <h5>Wall <b-badge variant="light">{{player.mainplayer.numWall}}</b-badge></h5></div>
+    </div>
+
     <RPSBar :player='player' :RPS='RPS' :game='game'> </RPSBar>
 
-    <div class="bottomInfobar bg-primary">
-         <div class="bottomElement text-warning">  <h5> name: {{player.mainplayer.name}}</h5></div>
-        <div class="bottomElement text-warning">  <h5> Flag <b-badge variant="light">{{player.mainplayer.numFlag}}</b-badge></h5></div>
-        <div class="bottomElement text-warning">  <h5>Canon<b-badge variant="light">{{player.mainplayer.numCannon}}</b-badge></h5></div>
-        <div class="bottomElement text-warning">  <h5>Wall<b-badge variant="light">{{player.mainplayer.numWall}}</b-badge></h5></div>
-
-    </div>
+   
 
     <a-scene embedded arjs>
       <a-marker preset="hiro">
@@ -24,6 +25,7 @@
           id="mclaren"
           position="0 0 0"
           :scale="model.mclaren.scale"
+          :rotation="model.mclaren.rotation"
           :gltf-model="model.mclaren.url"
         ></a-entity>
       </a-marker>
@@ -33,6 +35,7 @@
           id="dinosaur"
           position="0 0 0"
           :scale="model.dinosaur.scale"
+          :rotation="model.dinosaur.rotation"
           :gltf-model="model.dinosaur.url"
         ></a-entity>
         <a-box color="red" position="0 2 -5" rotation="0 45 45" scale="2 2 2"></a-box>
@@ -68,12 +71,14 @@ export default {
         mclaren: {
           url: " /gITF/mclaren/scene.gltf",
           position: "0 0 0",
+          rotation: "-90 0 0",
           scale: "0.005 0.005 0.005"
         },
         dinosaur: {
           url:
             "https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf",
           position: "0 0 0",
+          rotation: "90 0 0",
           scale: "0.05 0.05 0.05"
         }
       },
@@ -123,18 +128,15 @@ export default {
   justify-content: flex-start;
   align-items: center;
   z-index: 10;
-  
 }
 
 .topInfobar .topElement{
   padding: 0.5em;
-  /* margin: 1em; */
   border: 2px;
-  /* width: 7em; */
   justify-content: center;
   text-align: center;
 }
-
+/* 
 .bottomInfobar {
   position: absolute;
   bottom: 5em;
@@ -145,13 +147,23 @@ export default {
   justify-content: flex-end;
   align-items: center;
   z-index: 10;
+} */
+
+.bottomInfobar {
+  position: absolute;
+  bottom: 5em;
+  right: 0;
+  width: 100%;
+  height: 3.5em;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  z-index: 10;
 }
 
 .bottomInfobar .bottomElement{
   padding: 0.5em;
-  /* margin: 1em; */
   border: 2px;
-  /* width: 7em; */
   justify-content: center;
   text-align: center;
 }

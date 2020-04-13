@@ -7,38 +7,44 @@
           variant="success"
           class="RPSbutton"
           @click='RPSClicked("paper")'
-        >Paper</b-button>
+        ><h3><font-awesome-icon class="text-primary" :icon="['fa', 'hand-paper']" /></h3></b-button>
         <b-button
           v-b-modal.modal-1
           variant="success"
           class="RPSbutton"
           @click='RPSClicked("scissors")'
-        >Scissors</b-button>
+        ><h3><font-awesome-icon class="text-primary" :icon="['fa', 'hand-scissors']" /></h3></b-button>
         <b-button
           v-b-modal.modal-1
           variant="success"
           class="RPSbutton"
           @click='RPSClicked("rock")'
-        >Rock</b-button>
+        ><h3><font-awesome-icon class="text-primary" :icon="['fa', 'hand-rock']" /></h3></b-button>
+
       </div>
       <div v-else>
           <h3> winner:<u>{{this.game.winner.name}}</u> loser: <u>{{this.game.loser.name}} </u> <b-button
           variant="info"
           @click='reset()'
         >RESET</b-button></h3>
-
       </div>
     </div>
 
     <b-modal id="modal-1" centered hide-header hide-footer>
       <b-container>
         <div class="d-block text-center">
-          <div v-if=" RPS.result === 'a_win'">
             <!-- a_win case -->
             <h2>
-              <span class="text-primary">{{this.player.mainplayer.RPSChoice}}</span> vs
-              <span class="text-danger">{{this.player.opponent.RPSChoice}}</span>
+              <span  v-if='this.player.mainplayer.RPSChoice == "paper" '>  <font-awesome-icon class="text-primary" :icon="['fa', 'hand-paper']" />  </span>
+              <span  v-if='this.player.mainplayer.RPSChoice == "scissors"'>  <font-awesome-icon class="text-primary" :icon="['fa', 'hand-scissors']" /></span>
+              <span  v-if='this.player.mainplayer.RPSChoice == "rock" '>  <font-awesome-icon class="text-primary" :icon="['fa', 'hand-rock']" /></span>
+              vs
+              <span  v-if='this.player.opponent.RPSChoice == "paper" '><font-awesome-icon class="text-danger" :icon="['fa', 'hand-paper']" /></span>
+              <span  v-if='this.player.opponent.RPSChoice == "scissors" '>  <font-awesome-icon class="text-danger" :icon="['fa', 'hand-scissors']" /></span>
+              <span  v-if='this.player.opponent.RPSChoice == "rock" '> <font-awesome-icon class="text-danger" :icon="['fa', 'hand-rock']" /></span>
             </h2>
+           <div v-if=" RPS.result === 'a_win'">
+
             <h3 class="text-success">'Congrats, You Win'</h3>
             <h3>'Please make a decision'</h3>
 
@@ -111,19 +117,11 @@
           </div>
           <div v-else-if="RPS.result === 'b_win'">
             <!-- b_win case -->
-            <h2>
-              <span class="text-primary">{{this.player.mainplayer.RPSChoice}}</span> vs
-              <span class="text-danger">{{this.player.opponent.RPSChoice}}</span>
-            </h2>
             <h3 class="text-secondary">'Opps, You lose'</h3>
               
           </div>
           <div v-else>
             <!-- TIe case -->
-            <h2>
-              <span class="text-primary">{{this.player.mainplayer.RPSChoice}}</span> vs
-              <span class="text-danger">{{this.player.opponent.RPSChoice}}</span>
-            </h2>
             <h3 class="text-info">Tie, Please try again</h3>
           </div>
         </div>
@@ -260,8 +258,8 @@ export default {
   border: none;
   background: white;
   color: black;
-  width: 5em;
-  height: 2em;
+  width: 3em;
+  height: 3em;
   /* z-index; */
 }
 </style>
