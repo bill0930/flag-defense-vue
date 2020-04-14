@@ -172,6 +172,8 @@ export default {
   },
   mounted() {
     console.log("mounted");
+    var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    if(isSafari){this.$swal(`<h5> You are using <strong>Safari</strong>, To get enhanced experience,you may <b>hide the toolbar</b> under the AA icon at top left corner</h5>`)}
   },
   data() {
     return {
@@ -262,26 +264,11 @@ export default {
           },
           
         },
-        dinosaur: {
-          url:
-            "https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf",
-          position: "0 0 0",
-          rotation: "90 0 0",
-          scale: "0.05 0.05 0.05"
-        }
       }
 
     };
   },
-  methods: {
-    swap() {
-      var temp = this.model.mclaren;
-      this.model.mclaren = this.model.dinosaur;
-      this.model.dinosaur = temp;
-    },
- 
-
-  },
+  methods: {},
   computed:{
     getMainplayerwallText: function(){
       return this.model.wall.wallText + this.player.mainplayer.numWall + "of 3"
