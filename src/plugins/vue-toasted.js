@@ -15,8 +15,7 @@ let options = {
     },
     position: "bottom-center", 
     theme: 'toasted-primary' ,
-    duration : 3000,
-    fitToScreen: true
+    duration : 2000,
   };
   
   // register the toast with the custom message

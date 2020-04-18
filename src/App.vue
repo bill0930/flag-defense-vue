@@ -5,8 +5,6 @@
         <div class="topElement text-warning ">  <h5> Flag <b-badge variant="light">{{player.opponent.numFlag}}</b-badge></h5></div>
         <div class="topElement text-warning ">  <h5>Cannon <b-badge variant="light">{{player.opponent.numCannon}}</b-badge></h5></div>
         <div class="topElement text-warning ">  <h5>Wall <b-badge variant="light">{{player.opponent.numWall}}</b-badge></h5></div>
-       
-
     </div>
      <div class="bottomInfobar bg-primary">
         <div class="bottomElement text-warning ">  <h5>Player: {{player.mainplayer.name}}</h5></div>
@@ -53,7 +51,6 @@
           :rotation="model.flags.red.rightflag.rotation"
           :gltf-model="model.flags.red.rightflag.url"
         ></a-entity>
-                  <!-- :width = "model.wall.width" -->
 
         <a-box
           id = "gravelWall"
@@ -64,14 +61,28 @@
           :width = "player.opponent.numWall"
           :src = "model.wall.src"
         >
-         <a-entity 
-        id = "redWallText"
-        :text= "getOpponentwallText"
-        :scale = "model.wall.wallText.scale"
-        :position = "model.wall.wallTextPosition" 
-        ></a-entity>
         </a-box>
 
+            <!-- cannon -->
+        <a-entity
+        id = "leftCannon"
+        v-if ='player.opponent.numCannon >= 1'
+        :position = "model.cannon.leftCannon.position" 
+        :scale = "model.cannon.leftCannon.scale" 
+        :rotation = "model.cannon.leftCannon.rotation"
+        :gltf-model= "model.cannon.leftCannon.url" 
+        >
+        
+        </a-entity>
+        <a-entity
+        id = "rightCannon"
+        v-if ='player.opponent.numCannon >= 2'
+        :position = "model.cannon.rightCannon.position" 
+        :scale = "model.cannon.rightCannon.scale" 
+        :rotation = "model.cannon.rightCannon.rotation"
+        :gltf-model= "model.cannon.rightCannon.url" 
+        >
+        </a-entity>
       </a-marker>
 
 
@@ -109,7 +120,6 @@
           :gltf-model="model.flags.blue.rightflag.url"
         ></a-entity>
 
-  <!-- wall and Wall text -->
         <a-box
           id = "bluegravelWall"
           v-if ='player.mainplayer.numWall >= 1'
@@ -119,15 +129,10 @@
           :width = "player.mainplayer.numWall"
           :src = "model.wall.src"
         >
-          <a-entity 
-          id = "redWallText"
-          :text= "getMainplayerwallText"
-          :scale = "model.wall.wallText.scale"
-          :position = "model.wall.wallTextPosition" 
-          ></a-entity>
+
         </a-box>
 
-<!-- cannon -->
+      <!-- cannon -->
         <a-entity
         id = "leftCannon"
         v-if ='player.mainplayer.numCannon >= 1'
@@ -244,9 +249,6 @@ export default {
           width: 1, //level 1, 2,3 
           rotation: "90 0 0",
           src: "/texture/gravel.png",
-          wallTextPosition: "0 -0.25 0",
-          wallTextScale: "2 2 2",
-          wallText: "align: center; width: 6;value: The wall level is "
         },
 
         cannon: {
@@ -270,15 +272,7 @@ export default {
   },
   methods: {},
   computed:{
-    getMainplayerwallText: function(){
-      return this.model.wall.wallText + this.player.mainplayer.numWall + "of 3"
-    },
-
-    getOpponentwallText: function(){
-      return this.model.wall.wallText + this.player.opponent.numWall + "of 3"
-    },
-    
-
+  
   },
 
   watch: {
@@ -295,7 +289,7 @@ export default {
 };
 </script>
 
-  <style>
+<style>
 .topInfobar {
   position: absolute;
   top: 0;
@@ -334,8 +328,5 @@ export default {
   justify-content: center;
   text-align: center;
 }
-
-
-
 
 </style>
