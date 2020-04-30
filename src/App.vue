@@ -17,9 +17,10 @@
 
    
 
-    <a-scene embedded arjs>
+    <a-scene embedded arjs="debugUIEnabled: false; patternRatio: 0.9">
       <!-- opponent -->
-      <a-marker preset="hiro">
+      <!-- <a-marker preset="hiro"> -->
+    <a-marker type="pattern" url="/markers/patt/pattern-jason.patt">
         <a-entity
           id="redcastle"
           :position="model.castle.position"
@@ -87,7 +88,8 @@
 
 
       <!-- mainplayer -->
-      <a-marker preset="kanji">
+      <!-- <a-marker preset="kanji"> -->
+      <a-marker type="pattern" url="/markers/patt/pattern-billy.patt">
         <a-entity
           id="bluecastle"
           :position="model.castle.position"
