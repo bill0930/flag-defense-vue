@@ -2,15 +2,15 @@
   <span id="app">
     <div class="topInfobar bg-danger ">  
         <div class="topElement text-warning ">  <h5> Opponent: {{player.opponent.name}} </h5></div>
-        <div class="topElement text-warning ">  <h5> Flag <b-badge variant="light">{{player.opponent.numFlag}}</b-badge></h5></div>
-        <div class="topElement text-warning ">  <h5>Cannon <b-badge variant="light">{{player.opponent.numCannon}}</b-badge></h5></div>
-        <div class="topElement text-warning ">  <h5>Wall <b-badge variant="light">{{player.opponent.numWall}}</b-badge></h5></div>
+        <div class="topElement text-warning ">  <h5> <font-awesome-icon :icon="['fa', 'flag']" /> <b-badge variant="light">{{player.opponent.numFlag}}</b-badge></h5></div>
+        <div class="topElement text-warning ">  <h5> <font-awesome-icon :icon="['fa', 'meteor']" /><b-badge variant="light">{{player.opponent.numCannon}}</b-badge></h5></div>
+        <div class="topElement text-warning ">  <h5><font-awesome-icon :icon="['fa', 'ruler-horizontal']" /> <b-badge variant="light">{{player.opponent.numWall}}</b-badge></h5></div>
     </div>
      <div class="bottomInfobar bg-primary">
         <div class="bottomElement text-warning ">  <h5>Player: {{player.mainplayer.name}}</h5></div>
-        <div class="bottomElement text-warning ">  <h5>Flag <b-badge variant="light">{{player.mainplayer.numFlag}}</b-badge></h5></div>
-        <div class="bottomElement text-warning ">  <h5>Canon <b-badge variant="light">{{player.mainplayer.numCannon}}</b-badge></h5></div>
-        <div class="bottomElement text-warning ">  <h5>Wall <b-badge variant="light">{{player.mainplayer.numWall}}</b-badge></h5></div>
+        <div class="bottomElement text-warning ">  <h5><font-awesome-icon :icon="['fa', 'flag']" /> <b-badge variant="light">{{player.mainplayer.numFlag}}</b-badge></h5></div>
+        <div class="bottomElement text-warning ">  <h5><font-awesome-icon :icon="['fa', 'meteor']" /> <b-badge variant="light">{{player.mainplayer.numCannon}}</b-badge></h5></div>
+        <div class="bottomElement text-warning ">  <h5><font-awesome-icon :icon="['fa', 'ruler-horizontal']" />  <b-badge variant="light">{{player.mainplayer.numWall}}</b-badge></h5></div>
     </div>
 
     <RPSBar :player='player' :RPS='RPS' :game='game'> </RPSBar>
@@ -185,7 +185,7 @@ export default {
       game: new GameScene(), 
       player: {
         mainplayer: new Player("billy", 0), // aiMode = 0
-        opponent: new Player("opponent", 1), // aiMode = 0
+        opponent: new Player("bot_jason", 1), // aiMode = 0
       },
       RPS: {
         result: '' ,// a_win, b_win, tie
