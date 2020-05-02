@@ -13,8 +13,9 @@
 
 ### Information
 This is a final year project of building a WebAR Game "Flag Defense"
-Please use your mobile phone to visit ohbillychan.com and preapre [hiro and kanji marker](https://user-images.githubusercontent.com/6317076/27867388-64baee98-6191-11e7-9fbe-586fd79eba9d.png)
-
+Please use your mobile phone to visit [webpage](https://flag-defense.firebaseapp.com/) and preapre 
+[jason](https://flag-defense.firebaseapp.com/markers/png/pattern-JASON.png)
+[billy](https://flag-defense.firebaseapp.com/markers/png/pattern-BILLY.png)
 ### Development
 If you wanna to visit the folder 
 `cd /"somewhere you want to put in the project"/`
