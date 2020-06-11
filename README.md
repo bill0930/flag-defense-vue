@@ -16,6 +16,9 @@ This is a final year project of building a WebAR Game "Flag Defense"
 Please use your mobile phone to visit [webpage](https://flag-defense.firebaseapp.com/) and preapre 
 [jason](https://flag-defense.firebaseapp.com/markers/png/pattern-JASON.png)
 [billy](https://flag-defense.firebaseapp.com/markers/png/pattern-BILLY.png)
+
+[Demo video](https://www.youtube.com/watch?v=FyDh6MB-k78) :)
+
 ### Development
 If you wanna to visit the folder 
 `cd /"somewhere you want to put in the project"/`
